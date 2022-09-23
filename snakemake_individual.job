@@ -1,0 +1,12 @@
+#!/bin/bash
+#SBATCH --job-name=snakemake
+#SBATCH --ntasks=1
+#SBATCH --error=snakemake-%j.err
+#SBATCH --out=snakemake-%j.out
+#SBATCH --mem=32G
+#SBATCH --partition=dhvi
+#SBATCH --ntasks-per-node=1
+
+module load Python/3.8.1
+cd <path to snakefile>
+snakemake -c1 --config sample=${1} ucaFile=${2} ucaMarkup=[]

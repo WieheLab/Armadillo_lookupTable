@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name=60601
+#SBATCH --ntasks=1
+#SBATCH --error=slurm-%j.err
+#SBATCH --mem=16G
+#SBATCH --partition=dhvi
+#SBATCH --ntasks-per-node=1
+
+QUALITY=q30p95
+NAME=60601;
+UCA_FASTA=<ucafile>
+WORKING_DIR=<working dir>
+SNAKE_PATH=<path to snakefile>
+CHAIN=Heavy
+ONE_LETTER_CHAIN=${CHAIN:0:1}
+NumberJob=10
+
+
+module load Python/3.8.1
+snakemake --cluster="sbatch -p dhvi --mem=16G --job-name=${NAME}.snakemake " -c1 -j ${NumberJob} --latency-wait=300 -s ${SNAKE_PATH}/Snakefile  --config sample=${WORKING_DIR}${NAME}.human_VDJ.fxnl.fasta  ucaFile=${UCA_FASTA} ucaMarkup=[]
